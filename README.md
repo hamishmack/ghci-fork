@@ -22,7 +22,7 @@ and/or require modification of your code.
 ## Using `:fork`
 
 `:fork` forks a thread and stores it in the process environment.
-If another thread was allready in the selected "slot" it uses
+If another thread was already in the selected "slot" it uses
 `killThread` and waits for it to terminate before starting
 the new thread.
 
@@ -42,9 +42,9 @@ World
 ```
 
 The `slotName` identifies where the thread id is to be stored (any
-combination of `isAlphaNum` charaters or `'_'`).
+combination of `isAlphaNum` characters or `'_'`).
 
-To stop a thread just use replace it with something that terminates:
+To stop a thread just replace it with something that terminates:
 
 ``` Haskell
 > :fork slotName return ()
@@ -100,7 +100,7 @@ Feel free to add it to the startup code of tools that use `ghci` too.
 
 This was done to avoid dependencies on the imported modules and enabled extensions.
 
-### How can redefine the `:reload` command so that also restarts my thread?
+### How can I redefine the `:reload` command so that it also restarts my thread?
 
 ``` Haskell
 :def! reload (const $ return "::reload\n:fork mySlot MyModule.myMainFunction")
