@@ -61,6 +61,7 @@ Feel free to add it to the startup code of tools that use `ghci` too.
   let (slot, code) = Data.List.span (\c -> case c of
           '_' -> True
           ' ' -> False
+          '\n' -> False
           _ -> if Data.Char.isAlphaNum c
                   then True
                   else GHC.Base.error "Slot name must contain alpha, numbers and '_' only. Usage :fork slotName putStrLn \"Hello World\"") s
@@ -82,7 +83,7 @@ Feel free to add it to the startup code of tools that use `ghci` too.
     ,"  ( Control.Concurrent.takeMVar sPtrSet Control.Monad.>>"
     ,"    Control.Concurrent.putMVar running () Control.Monad.>>"
     ,"    ("
-    ,     code
+    ,     Data.List.drop 1 code
     ,"    )"
     ,"  ) (\\_ -> Control.Concurrent.takeMVar running) Control.Monad.>>="
     ,"(\\t -> Foreign.StablePtr.newStablePtr (t, running) >>="
