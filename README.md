@@ -106,3 +106,26 @@ This was done to avoid dependencies on the imported modules and enabled extensio
 ``` Haskell
 :def! reload (const $ return "::reload\n:fork mySlot MyModule.myMainFunction")
 ``` 
+
+### What if my thread has children?
+
+The parent thread(s) will need to make sure the children are
+cleaned up.
+One option would be to use `killThread` (but you could
+also signal the children with an `MVar` instead): 
+
+```
+import Control.Exception (bracket)
+import Control.Concurrent (forkIO, threadDelay, killThread)
+import Control.Monad (forever)
+:{
+:fork slotName bracket
+    (forkIO $ forever $ putStrLn "Child!" >> threadDelay 5000000)
+    killThread
+    (\_ -> forever $ putStrLn "Parent!" >> threadDelay 5000000)
+:}
+```
+
+If you are using the `distributed-process` library you can use
+[Monitoring and linking](http://hackage.haskell.org/package/distributed-process-0.7.4/docs/Control-Distributed-Process.html#g:7)
+to ensure children are clean up when the parent terminates.
