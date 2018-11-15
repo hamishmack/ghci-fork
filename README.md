@@ -126,6 +126,8 @@ import Control.Monad (forever)
 :}
 ```
 
+Another option is to use the [slave-thread](https://hackage.haskell.org/package/slave-thread) package.
+
 If you are using the `distributed-process` library you can use
 [Monitoring and linking](http://hackage.haskell.org/package/distributed-process-0.7.4/docs/Control-Distributed-Process.html#g:7)
 to ensure children are clean up when the parent terminates.
