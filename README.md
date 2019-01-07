@@ -59,13 +59,13 @@ Feel free to add it to the startup code of tools that use `ghci` too.
 :{
 :def! fork (\s ->
   let (slot, code) = Data.List.span (\c -> case c of
-          '_' -> True
-          ' ' -> False
-          '\n' -> False
+          '_' -> Data.Bool.True
+          ' ' -> Data.Bool.False
+          '\n' -> Data.Bool.False
           _ -> if Data.Char.isAlphaNum c
-                  then True
+                  then Data.Bool.True
                   else GHC.Base.error "Slot name must contain alpha, numbers and '_' only. Usage :fork slotName putStrLn \"Hello World\"") s
-  in Control.Monad.return $ Data.String.unlines
+  in Control.Monad.return (Data.String.unlines
     [":{"
     ,"System.Environment.lookupEnv \"GHCI_FORK_" Data.Monoid.<> slot Data.Monoid.<> "\" Control.Monad.>>="
     ,"(\\s ->"
@@ -91,7 +91,7 @@ Feel free to add it to the startup code of tools that use `ghci` too.
     ,"  (Foreign.Ptr.ptrToWordPtr (Foreign.StablePtr.castStablePtrToPtr sPtr))) Control.Monad.>>"
     ,"Control.Concurrent.putMVar sPtrSet ())))))"
     ,":}"
-    ])
+    ]))
 :}
 ```
 
